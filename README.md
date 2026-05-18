@@ -83,7 +83,7 @@ Read `INTENT-CORRECTION.md` to:
 
 This repository is designed to be "dropped" into any AI conversation. Simply tell the AI:
 
-> "Check this repository for configuration: https://github.com/badhope/Chinese-way"
+> "Check this repository for configuration: https://github.com/badhope/AI-Dev-Config"
 
 The AI will automatically:
 1. Read all configuration files
