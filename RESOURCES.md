@@ -75,6 +75,8 @@
 When user asks you to use a resource, follow these exact steps:
 
 ### Step 1: Clone the repository (if not already local)
+
+**Option A: If you have shell access (can run git commands)**:
 ```bash
 git clone --depth 1 https://github.com/badhope/AI-SKILL.git
 git clone --depth 1 https://github.com/badhope/PromptHub.git
@@ -82,6 +84,14 @@ git clone --depth 1 https://github.com/badhope/Mcp-Market.git
 git clone --depth 1 https://github.com/badhope/API-Market.git
 ```
 > Only clone the repository you actually need. Use `--depth 1` for speed.
+
+**Option B: If you do NOT have shell access (e.g., ChatGPT, Claude web)**:
+1. Ask the user to provide the specific file content, OR
+2. Use your built-in web browsing to fetch raw files from GitHub:
+   - `https://raw.githubusercontent.com/badhope/AI-SKILL/main/skills/index.json`
+   - `https://raw.githubusercontent.com/badhope/Mcp-Market/main/servers-index.json`
+   - `https://raw.githubusercontent.com/badhope/API-Market/main/api-database.json`
+   - `https://raw.githubusercontent.com/badhope/PromptHub/main/index.json`
 
 ### Step 2: Read the index file to find what you need
 
@@ -91,6 +101,27 @@ git clone --depth 1 https://github.com/badhope/API-Market.git
 | PromptHub | `index.json` | All prompt names, categories |
 | Mcp-Market | `servers-index.json` | All MCP server names, categories, languages |
 | API-Market | `api-database.json` | All API names, categories, quality scores |
+
+**How to read JSON files**:
+```python
+# Python example
+import json
+with open('skills/index.json', 'r', encoding='utf-8') as f:
+    data = json.load(f)
+    # Search for specific item
+    for skill in data['categories']['development']['skills']:
+        if 'code-review' in skill['name'].lower():
+            print(f"Found: {skill['name']} at {skill['path']}")
+```
+
+```javascript
+// JavaScript example
+const fs = require('fs');
+const data = JSON.parse(fs.readFileSync('servers-index.json', 'utf-8'));
+// Search for specific item
+const server = data.servers.find(s => s.name.includes('puppeteer'));
+console.log(`Found: ${server.name} at ${server.path}`);
+```
 
 ### Step 3: Navigate to the specific resource and read it
 

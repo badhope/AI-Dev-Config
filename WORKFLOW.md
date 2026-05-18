@@ -170,9 +170,10 @@
    - Provide next steps
 
 3. **Save Context**
-   - Save project context to memory
+   - Save project context to memory (see INTENT-CORRECTION.md for memory format)
    - Update user preferences
    - Record lessons learned
+   - **How to save**: Create/update a JSON file in your working directory, e.g., `user-profile.json` or `project-memory.json`
 
 ### Output
 - Final deliverables

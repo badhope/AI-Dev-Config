@@ -167,6 +167,8 @@ After each successful correction:
 
 ## 📝 User Profile Template
 
+Save this profile to a JSON file (e.g., `user-profile.json` or `memory/user-profile.json`):
+
 ```json
 {
   "user": "badhope",
@@ -176,9 +178,14 @@ After each successful correction:
     {"error": "屁眼", "intent": "API", "frequency": 2}
   ],
   "preferred_language": "zh",
-  "technical_background": ["software_development", "AI_application"]
+  "technical_background": ["software_development", "AI_application"],
+  "last_updated": "2026-05-18"
 }
 ```
+
+**Storage Location**: 
+- If you have file system access: Save to `./user-profile.json` or `./memory/user-profile.json`
+- If you don't have file system access: Keep in your context window and reference at the start of each session
 
 ---
 

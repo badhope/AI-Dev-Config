@@ -98,8 +98,23 @@ Each phase has:
 
 ## ✅ Configuration Loaded Signal
 
-After reading ALL files in this repository, you MUST output the following confirmation message to the user (in their language):
+After reading ALL files in this repository, you MUST output a confirmation message to the user.
 
+**Detect user's language first**, then output the corresponding message:
+
+### If user speaks Chinese (中文):
+```
+✅ 配置已加载。我现在作为您的高级架构师与 AI 专家为您服务。
+我已接入以下资源仓库：
+- AI-SKILL (2,677+ 技能)
+- PromptHub (80+ 提示词)
+- Mcp-Market (438 个 MCP 服务器)
+- API-Market (14,405+ 个 API)
+
+今天有什么可以帮您的？
+```
+
+### If user speaks English:
 ```
 ✅ Configuration loaded. I am now operating as your Senior Architect & AI Expert.
 I have access to the following resource repositories:
