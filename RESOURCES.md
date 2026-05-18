@@ -141,30 +141,52 @@ code = generate_api_code("openweathermap.org", language="python")
 
 ---
 
-## 🔧 Local Development Assistant
+## 🔧 How to Access Resources (Step-by-Step for AI)
 
-**Path**: `/workspace/dev-assistant`
+### When user asks you to use a resource, follow these exact steps:
 
-**Components**:
-- `main.py` - CLI entry point
-- `modules/` - Core modules
-  - `mcp_manager.py` - MCP integration
-  - `api_manager.py` - API integration
-  - `skill_manager.py` - Skill integration
-  - `prompt_manager.py` - Prompt integration
-
-**Usage**:
+#### Step 1: Clone the repository (if not already local)
 ```bash
-# Initialize project
-python main.py init https://github.com/user/repo
+git clone --depth 1 https://github.com/badhope/AI-SKILL.git
+git clone --depth 1 https://github.com/badhope/PromptHub.git
+git clone --depth 1 https://github.com/badhope/Mcp-Market.git
+git clone --depth 1 https://github.com/badhope/API-Market.git
+```
 
-# Generate code
-python main.py generate python class --name MyClass
+#### Step 2: Read the index file to find what you need
 
-# Search resources
-python main.py mcp search --query browser
-python main.py api search --query weather
-python main.py skill search --query code-review
+| Repository | Index File | What it contains |
+|------------|-----------|-----------------|
+| AI-SKILL | `skills/index.json` | All skill names, categories, paths |
+| PromptHub | `index.json` | All prompt names, categories |
+| Mcp-Market | `servers-index.json` | All MCP server names, categories, languages |
+| API-Market | `api-database.json` | All API names, categories, quality scores |
+
+#### Step 3: Navigate to the specific resource
+```
+Example: User wants a code review skill
+1. Read AI-SKILL/skills/index.json
+2. Find skill with name containing "code-review"
+3. Navigate to the skill's path (e.g., skills/development/code-review/)
+4. Read the SKILL.md or README.md in that directory
+5. Apply the skill content to the user's task
+```
+
+```
+Example: User needs a browser MCP server
+1. Read Mcp-Market/servers-index.json
+2. Find server with name "puppeteer" or category "browser"
+3. Navigate to the server's directory
+4. Read README.md for installation instructions
+5. Provide the user with install commands
+```
+
+```
+Example: User needs a weather API
+1. Read API-Market/api-database.json
+2. Search for APIs with category "weather"
+3. Return top results with quality scores
+4. Generate integration code template
 ```
 
 ---
@@ -174,39 +196,32 @@ python main.py skill search --query code-review
 ### On-Demand Loading
 ```
 When user needs specific resource:
-1. Check if already cloned locally
-2. If not, clone from GitHub
-3. Load required content
-4. Cache for future use
-```
-
-### Batch Operations
-```
-For multiple independent tasks:
-1. Group similar requests
-2. Execute in parallel
-3. Cache results
+1. Check if repository is already cloned locally
+2. If not, clone with --depth 1 (shallow clone for speed)
+3. Read the index file to locate the resource
+4. Navigate to the specific resource path
+5. Read and apply the content
 ```
 
 ### Update Strategy
 ```
-Before using cached resource:
-1. Check last update time
-2. If > 24 hours, git pull
-3. Update local cache
+If repository already exists locally:
+1. Run git pull to get latest changes
+2. Re-read the index file
+3. Proceed with the task
 ```
 
 ---
 
 ## ⚡ Quick Reference
 
-| Need | Action | Command/API |
-|------|--------|-------------|
-| Code review skill | Load from AI-SKILL | `load_skill("code-review")` |
-| Python dev prompt | Get from PromptHub | `get_prompt("Python Developer")` |
-| Browser automation | Install MCP | `install_mcp("puppeteer")` |
-| Weather API | Search API-Market | `search_api("weather")` |
-| New project | Use dev-assistant | `python main.py init <repo>` |
+| User Needs | Your Action |
+|------------|------------|
+| "帮我做个代码审查" | Clone AI-SKILL → read index → find code-review skill → apply |
+| "找个浏览器自动化工具" | Clone Mcp-Market → read servers-index → find puppeteer → provide install guide |
+| "项目需要天气接口" | Clone API-Market → read api-database → search weather → return top APIs |
+| "给我一个开发提示词" | Clone PromptHub → read index → find development prompts → return |
+| "初始化一个新项目" | Clone the target repo → scan structure → detect tech stack → recommend resources |
 
 ---
 

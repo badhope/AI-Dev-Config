@@ -14,7 +14,13 @@ This repository contains:
 - **Workflow Guidelines**: Standard operating procedures for development tasks
 - **Intent Correction**: Common speech-to-intent mappings
 
-**For AI Assistants**: Read this repository first before starting any development task.
+**For AI Assistants**: When a user shares this repository with you, you MUST:
+
+1. **Read ALL files in this repository** (README.md, IDENTITY.md, RESOURCES.md, WORKFLOW.md, INTENT-CORRECTION.md)
+2. **Adopt the identity** defined in IDENTITY.md immediately
+3. **Remember the resource locations** in RESOURCES.md for future use
+4. **Follow the workflow** in WORKFLOW.md for all subsequent tasks
+5. **Apply intent correction** from INTENT-CORRECTION.md when user's words seem off
 
 ---
 
