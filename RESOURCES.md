@@ -8,19 +8,19 @@
 
 ## 📦 Resource Overview
 
-| Resource Type | Repository | Content Scale | Access Method |
-|--------------|------------|---------------|---------------|
-| **Skills** | [AI-SKILL](https://github.com/badhope/AI-SKILL) | 2,677+ skills | On-demand clone |
-| **Prompts** | [PromptHub](https://github.com/badhope/PromptHub) | 80+ prompts | Direct read |
-| **MCP Servers** | [Mcp-Market](https://github.com/badhope/Mcp-Market) | 438 servers | On-demand clone |
-| **APIs** | [API-Market](https://github.com/badhope/API-Market) | 14,405+ APIs | Query database |
+| Resource Type | Repository | Content Scale | Index File |
+|--------------|------------|---------------|------------|
+| **Skills** | [AI-SKILL](https://github.com/badhope/AI-SKILL) | 2,677+ skills | `skills/index.json` |
+| **Prompts** | [PromptHub](https://github.com/badhope/PromptHub) | 80+ prompts | `index.json` |
+| **MCP Servers** | [Mcp-Market](https://github.com/badhope/Mcp-Market) | 438 servers | `servers-index.json` |
+| **APIs** | [API-Market](https://github.com/badhope/API-Market) | 14,405+ APIs | `api-database.json` |
 
 ---
 
 ## 🎯 AI-SKILL Repository
 
 **URL**: `https://github.com/badhope/AI-SKILL`
-
+**Index File**: `skills/index.json`
 **Content**: 2,677+ production-ready skills across 11 platforms
 
 **Categories**:
@@ -30,57 +30,24 @@
 - Product (PRD, OKR, management)
 - Communication (internal comms, email)
 
-**Usage**:
-```python
-# Search skills
-skills = search_skill(query="code-review", limit=10)
-
-# Load specific skill
-skill = load_skill("code-review")
-```
-
-**Local Path**: `/workspace/AI-SKILL`
-
 ---
 
 ## 📝 PromptHub Repository
 
 **URL**: `https://github.com/badhope/PromptHub`
-
+**Index File**: `index.json`
 **Content**: 80+ prompts across 5 categories
 
-**Categories**:
-- Development
-- Writing
-- Business
-- Life
-- Creative
+**Categories**: Development, Writing, Business, Life, Creative
 
-**Platform Support**:
-- OpenAI (GPT-4, GPT-3.5)
-- Anthropic (Claude)
-- Google (Gemini)
-- ByteDance (Doubao)
-- Alibaba (Qwen)
-- Baidu (Wenxin)
-
-**Usage**:
-```python
-# Get prompt by name
-prompt = get_prompt("Python Developer", category="development")
-
-# Search prompts
-prompts = search_prompt("Python", limit=10)
-```
-
-**Local Path**: `/workspace/PromptHub`
+**Platform Support**: OpenAI, Anthropic (Claude), Google (Gemini), ByteDance (Doubao), Alibaba (Qwen), Baidu (Wenxin)
 
 ---
 
 ## 🔌 Mcp-Market Repository
 
 **URL**: `https://github.com/badhope/Mcp-Market`
-
+**Index File**: `servers-index.json`
 **Content**: 438 MCP servers across 22 categories
 
 **Popular Categories**:
@@ -91,69 +58,32 @@ prompts = search_prompt("Python", limit=10)
 - File System (filesystem, file-tools)
 - AI Integration (any_chat_completions, needle)
 
-**Usage**:
-```python
-# Search MCP servers
-servers = search_mcp(query="browser", limit=10)
-
-# Install MCP server
-result = install_mcp("puppeteer")
-
-# Get install commands
-cmds = get_mcp_install_command("puppeteer")
-```
-
-**Local Path**: `/workspace/Mcp-Market`
-
 ---
 
 ## 🌐 API-Market Repository
 
 **URL**: `https://github.com/badhope/API-Market`
-
+**Index File**: `api-database.json`
 **Content**: 14,405+ public APIs across 60 categories
 
-**Database Files**:
-- `api-database.json` - Full API database
-- `search-index.json` - Search index
-- `quality-report.json` - Quality ratings
-
-**Categories**:
-- Development (code validation, documentation)
-- Data (weather, finance, geolocation)
-- AI/ML (translation, sentiment analysis)
-- Media (images, video, audio)
-- Communication (email, SMS, chat)
-
-**Usage**:
-```python
-# Search APIs
-apis = search_api(query="weather", limit=10)
-
-# Get API details
-api = get_api_details("openweathermap.org")
-
-# Generate integration code
-code = generate_api_code("openweathermap.org", language="python")
-```
-
-**Local Path**: `/workspace/API-Market`
+**Categories**: Development, Data, AI/ML, Media, Communication, Finance, etc.
 
 ---
 
 ## 🔧 How to Access Resources (Step-by-Step for AI)
 
-### When user asks you to use a resource, follow these exact steps:
+When user asks you to use a resource, follow these exact steps:
 
-#### Step 1: Clone the repository (if not already local)
+### Step 1: Clone the repository (if not already local)
 ```bash
 git clone --depth 1 https://github.com/badhope/AI-SKILL.git
 git clone --depth 1 https://github.com/badhope/PromptHub.git
 git clone --depth 1 https://github.com/badhope/Mcp-Market.git
 git clone --depth 1 https://github.com/badhope/API-Market.git
 ```
+> Only clone the repository you actually need. Use `--depth 1` for speed.
 
-#### Step 2: Read the index file to find what you need
+### Step 2: Read the index file to find what you need
 
 | Repository | Index File | What it contains |
 |------------|-----------|-----------------|
@@ -162,32 +92,30 @@ git clone --depth 1 https://github.com/badhope/API-Market.git
 | Mcp-Market | `servers-index.json` | All MCP server names, categories, languages |
 | API-Market | `api-database.json` | All API names, categories, quality scores |
 
-#### Step 3: Navigate to the specific resource
-```
-Example: User wants a code review skill
-1. Read AI-SKILL/skills/index.json
-2. Find skill with name containing "code-review"
-3. Navigate to the skill's path (e.g., skills/development/code-review/)
-4. Read the SKILL.md or README.md in that directory
-5. Apply the skill content to the user's task
-```
+### Step 3: Navigate to the specific resource and read it
 
-```
-Example: User needs a browser MCP server
-1. Read Mcp-Market/servers-index.json
-2. Find server with name "puppeteer" or category "browser"
-3. Navigate to the server's directory
-4. Read README.md for installation instructions
-5. Provide the user with install commands
-```
+**Example: User wants a code review skill**
+1. Clone AI-SKILL: `git clone --depth 1 https://github.com/badhope/AI-SKILL.git`
+2. Read `AI-SKILL/skills/index.json`
+3. Find skill with name containing "code-review"
+4. Navigate to the skill's path (e.g., `skills/development/code-review/`)
+5. Read the `SKILL.md` or `README.md` in that directory
+6. Apply the skill content to the user's task
 
-```
-Example: User needs a weather API
-1. Read API-Market/api-database.json
-2. Search for APIs with category "weather"
-3. Return top results with quality scores
-4. Generate integration code template
-```
+**Example: User needs a browser MCP server**
+1. Clone Mcp-Market: `git clone --depth 1 https://github.com/badhope/Mcp-Market.git`
+2. Read `Mcp-Market/servers-index.json`
+3. Find server with name "puppeteer" or category "browser"
+4. Navigate to the server's directory
+5. Read `README.md` for installation instructions
+6. Provide the user with install commands
+
+**Example: User needs a weather API**
+1. Clone API-Market: `git clone --depth 1 https://github.com/badhope/API-Market.git`
+2. Read `API-Market/api-database.json`
+3. Search for APIs with category "weather"
+4. Return top results with quality scores
+5. Generate integration code template for the user
 
 ---
 
@@ -215,13 +143,13 @@ If repository already exists locally:
 
 ## ⚡ Quick Reference
 
-| User Needs | Your Action |
-|------------|------------|
-| "帮我做个代码审查" | Clone AI-SKILL → read index → find code-review skill → apply |
-| "找个浏览器自动化工具" | Clone Mcp-Market → read servers-index → find puppeteer → provide install guide |
-| "项目需要天气接口" | Clone API-Market → read api-database → search weather → return top APIs |
-| "给我一个开发提示词" | Clone PromptHub → read index → find development prompts → return |
-| "初始化一个新项目" | Clone the target repo → scan structure → detect tech stack → recommend resources |
+| User Says | You Do |
+|-----------|--------|
+| "帮我做个代码审查" | Clone AI-SKILL → read `skills/index.json` → find code-review → read SKILL.md → apply |
+| "找个浏览器自动化工具" | Clone Mcp-Market → read `servers-index.json` → find puppeteer → provide install guide |
+| "项目需要天气接口" | Clone API-Market → read `api-database.json` → search weather → return top APIs |
+| "给我一个开发提示词" | Clone PromptHub → read `index.json` → find development prompts → return content |
+| "初始化一个新项目" | Clone target repo → scan structure → detect tech stack → recommend resources from above |
 
 ---
 

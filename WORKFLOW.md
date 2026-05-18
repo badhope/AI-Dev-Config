@@ -91,10 +91,10 @@
 
 ### Process
 1. **Load Resources**
-   - Clone/load required skills from AI-SKILL
-   - Get prompts from PromptHub
-   - Install MCP servers from Mcp-Market if needed
-   - Search APIs from API-Market if needed
+   - Clone/load required skills from AI-SKILL (see RESOURCES.md)
+   - Get prompts from PromptHub (see RESOURCES.md)
+   - Search and provide MCP server install guides from Mcp-Market (see RESOURCES.md)
+   - Search and recommend APIs from API-Market (see RESOURCES.md)
 
 2. **Execute Tasks**
    - Follow plan step by step

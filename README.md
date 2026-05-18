@@ -28,13 +28,11 @@ This repository contains:
 
 ```
 AI-Dev-Config/
-├── README.md                 # You are here
+├── README.md                 # You are here - Entry point
 ├── IDENTITY.md              # AI identity and behavior configuration
 ├── RESOURCES.md             # External resource repositories mapping
 ├── WORKFLOW.md              # Development workflow guidelines
-├── INTENT-CORRECTION.md     # Speech-to-intent correction rules
-└── .github/
-    └── workflows/           # Automation workflows
+└── INTENT-CORRECTION.md     # Speech-to-intent correction rules
 ```
 
 ---
