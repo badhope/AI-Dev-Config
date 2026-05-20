@@ -225,6 +225,15 @@ AI-Dev-Config/
 - [Context Management](./CONTEXT_MANAGEMENT.md)
 - [Resource Access](./RESOURCES.md)
 - [Quick Reference](./QUICK_REFERENCE.md)
+- [AI Usage Guide](./AI-GUIDANCE.md)
+- [Project-Resource Mapping](./PROJECT_RESOURCES_MAP.md)
+- [Example Conversations](./EXAMPLE_CONVERSATIONS.md)
+- [Checklists](./CHECKLIST.md)
+- [Troubleshooting](./TROUBLESHOOTING.md)
+- [Command Reference](./COMMANDS.md)
+- [Best Practices](./BEST_PRACTICES.md)
+- [FAQ](./FAQ.md)
+- [Changelog](./CHANGELOG.md)
 
 ---
 

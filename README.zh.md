@@ -225,6 +225,15 @@ AI-Dev-Config/
 - [上下文管理](./CONTEXT_MANAGEMENT.md)
 - [资源库访问](./RESOURCES.md)
 - [快速参考](./QUICK_REFERENCE.md)
+- [AI 使用指南](./AI-GUIDANCE.md)
+- [项目-资源映射](./PROJECT_RESOURCES_MAP.md)
+- [示例对话](./EXAMPLE_CONVERSATIONS.md)
+- [检查清单](./CHECKLIST.md)
+- [故障排除](./TROUBLESHOOTING.md)
+- [命令参考](./COMMANDS.md)
+- [最佳实践](./BEST_PRACTICES.md)
+- [常见问题](./FAQ.md)
+- [版本更新记录](./CHANGELOG.md)
 
 ---
 

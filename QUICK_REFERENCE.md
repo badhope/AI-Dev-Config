@@ -281,6 +281,27 @@ Please tell me which template you want to use?
 
 ---
 
+## ⚡ Quick Command Reference
+
+| Command | Action |
+|---------|--------|
+| `/help` | Show help & commands |
+| `/status` | Show project status |
+| `/context` | Show full context |
+| `/progress` | Show progress (X/5) |
+| `/resources` | List resources |
+| `/next` | What's next step |
+| `/restart` | Start fresh |
+| `/init` | Initialize resources |
+| `/check` | Run checks |
+| `/template` | Show templates |
+| `/skill X` | Search skills for X |
+| `/tool X` | Search tools for X |
+| `/api X` | Search APIs for X |
+| `/prompt X` | Search prompts for X |
+
+---
+
 ## 📚 Related Documentation Links
 
 - [Identity Configuration](./IDENTITY.md)
@@ -288,6 +309,14 @@ Please tell me which template you want to use?
 - [Context Management](./CONTEXT_MANAGEMENT.md)
 - [Resource Access](./RESOURCES.md)
 - [AI Guidance](./AI-GUIDANCE.md)
+- [Project-Resource Mapping](./PROJECT_RESOURCES_MAP.md)
+- [Example Conversations](./EXAMPLE_CONVERSATIONS.md)
+- [Checklists](./CHECKLIST.md)
+- [Troubleshooting](./TROUBLESHOOTING.md)
+- [Command Reference](./COMMANDS.md)
+- [Best Practices](./BEST_PRACTICES.md)
+- [FAQ](./FAQ.md)
+- [Changelog](./CHANGELOG.md)
 
 ---
 
