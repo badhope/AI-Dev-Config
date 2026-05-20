@@ -4,6 +4,22 @@
 
 ---
 
+## [1.0.1] - 2026-05-20
+
+### Updated
+
+#### Documentation
+- **README.md**: Updated "Related Documents" section with complete links to all 14 documents
+- **README.zh.md**: Updated Chinese version with complete document links
+- **QUICK_REFERENCE.md**: Added "Quick Command Reference" section with 16 commands table
+
+### Fixed
+- **Cross-references**: Verified and updated all document cross-references
+- **Git history**: Cleaned up old project files
+- **Completeness check**: Ensured all documents are present and updated
+
+---
+
 ## [1.0.0] - 2026-05-20
 
 ### Added
