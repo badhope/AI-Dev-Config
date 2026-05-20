@@ -1,200 +1,179 @@
-# Intent Understanding & Speech Correction
+# Intent Correction Rules
 
-> **Speech-to-Intent Mapping for AI Assistants**
-> 
-> This file helps AI understand user's true intent when they make speech errors.
+> **Speech-to-intent correction rules for AI agents**
 
 ---
 
-## 🎯 Core Principles
+## 🎯 Purpose
 
-### 1. Professional Content Assumption
-```
-The user will not say unprofessional content unrelated to development.
-If you hear a "strange" word, assume it's a speech error rather than the true intent.
-```
+This document provides intent correction rules to help AI agents better understand user speech patterns, especially when there may be pronunciation errors or ambiguous expressions.
 
-### 2. Context Association
-```
-Infer true intent based on conversation history.
-Example: "牧童" during architecture discussion → likely means "modular"
-```
+---
 
-### 3. Proactive Confirmation
+## 🔍 Common Pronunciation Errors and Corrections
+
+### English to English
+
+| Input | Correction | Context |
+|-------|------------|---------|
+| "code review" | code review | Correct as-is |
+| "cold review" | code review | Common mispronunciation |
+| "code rev" | code review | Abbreviation |
+| "PRD document" | PRD document | Correct as-is |
+| "PDR document" | PRD document | Common reversal |
+| "OKR goal" | OKR goal | Correct as-is |
+| "OCR goal" | OKR goal | Pronunciation confusion |
+| "SEO audit" | SEO audit | Correct as-is |
+| "CEO audit" | SEO audit | Pronunciation confusion |
+| "API integration" | API integration | Correct as-is |
+| "API intergration" | API integration | Typo correction |
+| "Docker" | Docker | Correct as-is |
+| "Doc ker" | Docker | Pronunciation split |
+| "Python" | Python | Correct as-is |
+| "Pi thon" | Python | Pronunciation split |
+| "JavaScript" | JavaScript | Correct as-is |
+| "Java Script" | JavaScript | Pronunciation split |
+
+### Chinese to English Mapping
+
+| Chinese Input | English Translation | Context |
+|---------------|--------------------|---------|
+| "代码审查" | code review | Code review |
+| "代码检查" | code review | Code inspection |
+| "PRD文档" | PRD document | Product requirements document |
+| "产品需求文档" | PRD document | Product requirements document |
+| "OKR目标" | OKR goal | OKR objectives |
+| "目标管理" | OKR goal | Goal management |
+| "SEO审计" | SEO audit | SEO audit |
+| "搜索引擎优化" | SEO audit | Search engine optimization |
+| "API接口" | API integration | API integration |
+| "应用程序接口" | API integration | Application programming interface |
+| "安装Docker" | install Docker | Install Docker |
+| "容器化" | Docker/Kubernetes | Containerization |
+| "Python环境" | Python environment | Python environment |
+| "Python开发" | Python development | Python development |
+| "前端开发" | frontend development | Frontend development |
+| "后端开发" | backend development | Backend development |
+| "全栈开发" | fullstack development | Full-stack development |
+| "人工智能" | AI development | Artificial intelligence |
+| "机器学习" | machine learning | Machine learning |
+| "数据科学" | data science | Data science |
+| "开发环境" | development environment | Development environment |
+| "环境配置" | environment configuration | Environment configuration |
+
+---
+
+## 🧠 Intent Inference Rules
+
+### Rule 1: Project Type Detection
+
+**Keywords for AI/ML Projects:**
+- AI, artificial intelligence, machine learning, ML, deep learning
+- Agent, intelligent agent, AI agent
+- Data science, data analysis, big data
+- Neural network, model, training
+
+**Keywords for Web Development:**
+- Website, web app, frontend, backend, fullstack
+- React, Vue, Angular, Next.js, Node.js
+- HTML, CSS, JavaScript, TypeScript
+- API, REST, GraphQL
+
+**Keywords for Mobile Development:**
+- Mobile app, iOS, Android
+- Flutter, React Native, Swift, Kotlin
+
+**Keywords for DevOps:**
+- Docker, Kubernetes, container
+- CI/CD, pipeline, automation
+- Cloud, AWS, Azure, GCP
+- Infrastructure, deployment
+
+---
+
+### Rule 2: Action Detection
+
+**Action Keywords:**
+- "开发", "创建", "构建", "make", "build", "create", "develop" → Development
+- "配置", "安装", "setup", "install", "configure" → Configuration
+- "修复", "调试", "debug", "fix", "repair" → Debugging
+- "审查", "审核", "review", "audit" → Review
+- "优化", "改进", "optimize", "improve" → Optimization
+- "设计", "架构", "design", "architecture" → Design
+
+---
+
+### Rule 3: Context Awareness
+
+**When user says "继续" or "continue":**
+- Look for previous context
+- Continue from last recorded progress
+- If no context exists, ask for clarification
+
+**When user says "新项目" or "new project":**
+- Start fresh context
+- Ask for project name and type
+- Initialize new project flow
+
+**When user says "帮我" or "help me":**
+- User needs assistance
+- Analyze what they need help with
+- Provide options or ask clarifying questions
+
+---
+
+## 📝 Common User Expressions and Intent Mapping
+
+| User Expression | Detected Intent | Recommended Action |
+|----------------|----------------|-------------------|
+| "我要开发一个AI应用" | Start AI project | Go to Phase 1 (Requirement Confirmation) |
+| "帮我配置开发环境" | Configure environment | Go to Global-Dev-Setup |
+| "安装Python" | Install tool | Search Global-Dev-Setup for Python |
+| "继续之前的项目" | Continue project | Restore context and continue |
+| "代码审查一下" | Code review | Go to AI-SKILL for code-review |
+| "写个PRD" | Write PRD | Go to AI-SKILL for prd-writer |
+| "需要一个API" | API integration | Go to API-Market |
+| "浏览器自动化" | Browser automation | Go to Mcp-Market for puppeteer |
+| "数据库连接" | Database integration | Go to Mcp-Market for database |
+| "优化一下" | Optimization | Ask for specific area to optimize |
+
+---
+
+## ⚠️ Ambiguity Handling
+
+### When intent is unclear:
+1. Ask clarifying questions
+2. Provide options for user to choose from
+3. Reference previous conversation history
+4. Make reasonable assumptions based on context
+
+### Example: User says "我需要帮助"
+**Response:**
 ```
-When uncertain, confirm in a suggestive way rather than asking directly.
-"You mentioned '牧童架构', do you mean 'modular architecture'?"
+## 🤔 Could you be more specific?
+
+I'd be happy to help! Could you tell me what you need help with?
+
+Options:
+1. 🎯 Start a new project
+2. 🔧 Configure development environment
+3. 🛠️ Install a specific tool
+4. 📋 Review code or documents
+5. 🤔 Something else
+
+Please let me know!
 ```
 
 ---
 
-## 📋 Common Speech Error Mapping
+## 💡 Best Practices
 
-| Speech Error | True Intent | Context Clue |
-|--------------|-------------|--------------|
-| 牧童 (mùtóng) | Modular (模块化) | Architecture discussion, similar pronunciation |
-| 木筒 (mùtǒng) | Module (模块) | Development context, similar pronunciation |
-| 卖个 (màige) | MCP | Tool discussion, similar pronunciation |
-| 屁眼 (pìyǎn) | API | Interface discussion, similar pronunciation |
-| 提子 (tízǐ) | Prompt (提示词) | AI discussion, similar pronunciation |
-| 猪手 (zhūshǒu) | Assistant (助手) | Tool discussion, similar pronunciation |
-| 鸡手 (jīshǒu) | Skill/Technique (技术/技能) | Development context, similar pronunciation |
-| 码农 (mǎnóng) | Module/Function (模块/功能) | Developer slang, similar pronunciation |
-| 技能 (jìnéng) | Skill | May be true intent, confirm context |
+1. **Listen carefully** - Pay attention to keywords and context
+2. **Be proactive** - Ask clarifying questions when unsure
+3. **Use context** - Reference previous conversations
+4. **Provide options** - Give user clear choices
+5. **Be flexible** - Handle variations in user expressions
 
 ---
 
-## 🔍 Intent Inference Process
-
-```
-User Input (may contain speech errors)
-    ↓
-[Step 1] Detect Anomalous Words
-    - Does it contain common speech errors?
-    - Does it fit the current discussion topic?
-    ↓
-[Step 2] Context Analysis
-    - What is the conversation history topic?
-    - What was the user focused on before?
-    ↓
-[Step 3] Intent Inference
-    - Infer true intent based on context
-    - Generate correction suggestion
-    ↓
-[Step 4] Confirm or Execute
-    - High confidence: Execute directly with correction
-    - Medium confidence: Suggestive confirmation
-    - Low confidence: Direct question
-```
-
----
-
-## 📊 Confidence Levels
-
-### High Confidence (Execute Directly)
-- Similar pronunciation + highly relevant topic + consistent history
-- Example: "牧童架构" during architecture discussion → Confidently interpret as "modular architecture"
-
-### Medium Confidence (Suggestive Confirmation)
-- Similar pronunciation + relevant topic but uncertain
-- Example: "卖个工具" during tool discussion → "Do you mean MCP tools?"
-
-### Low Confidence (Direct Question)
-- Cannot infer or completely unrelated
-- Example: Suddenly say "apple" with no context → "What do you mean by apple?"
-
----
-
-## 💬 Correction Templates
-
-### High Confidence
-```
-Understood you mean [corrected content], proceeding accordingly.
-```
-
-### Medium Confidence
-```
-You mentioned "[speech error]", do you mean "[corrected content]"?
-If yes, I will [action].
-```
-
-### Learning New Patterns
-```
-Record new speech patterns to this mapping table.
-```
-
----
-
-## 📝 Real Examples
-
-### Example 1: Architecture Discussion
-```
-User: "How to design this 牧童 architecture?"
-
-Analysis:
-- Current topic: Architecture design
-- Speech error: 牧童 (mùtóng)
-- Mapping: 牧童 → Modular (模块化)
-- Confidence: High
-
-Response:
-"Understood you mean modular architecture. For multi-scenario development, 
-suggest plugin-based design with core framework + scenario plugins..."
-```
-
-### Example 2: Tool Discussion
-```
-User: "How to call that 卖个 tool?"
-
-Analysis:
-- Current topic: Tool usage
-- Speech error: 卖个 (màige)
-- Mapping: 卖个 → MCP
-- Confidence: High
-
-Response:
-"You mean MCP tools, right? I can help you clone the needed MCP server 
-from Mcp-Market repository..."
-```
-
-### Example 3: API Discussion
-```
-User: "Need to integrate 屁眼 for this project"
-
-Analysis:
-- Current topic: Third-party integration
-- Speech error: 屁眼 (pìyǎn)
-- Mapping: 屁眼 → API
-- Confidence: High
-
-Response:
-"You mean API integration, right? I can search API-Market for suitable 
-APIs for your project..."
-```
-
----
-
-## 🔄 Integration with Memory System
-
-```
-After each successful correction:
-1. Record to user profile in memory system
-2. Update user's common speech patterns
-3. Prioritize learned patterns in future conversations
-```
-
----
-
-## 📝 User Profile Template
-
-Save this profile to a JSON file (e.g., `user-profile.json` or `memory/user-profile.json`):
-
-```json
-{
-  "user": "badhope",
-  "common_speech_patterns": [
-    {"error": "牧童", "intent": "modular", "frequency": 5},
-    {"error": "卖个", "intent": "MCP", "frequency": 3},
-    {"error": "屁眼", "intent": "API", "frequency": 2}
-  ],
-  "preferred_language": "zh",
-  "technical_background": ["software_development", "AI_application"],
-  "last_updated": "2026-05-18"
-}
-```
-
-**Storage Location**: 
-- If you have file system access: Save to `./user-profile.json` or `./memory/user-profile.json`
-- If you don't have file system access: Keep in your context window and reference at the start of each session
-
----
-
-## 🔄 Update Mechanism
-
-- **Auto-learning**: Record after each successful correction
-- **Regular review**: Organize new speech patterns weekly
-- **User feedback**: Update when user corrects AI's understanding
-
----
-
-*Apply these rules to understand user's true intent and improve interaction quality.*
+*Intent correction is an ongoing learning process. Update these rules based on user feedback.*
