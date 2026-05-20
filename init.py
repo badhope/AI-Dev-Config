@@ -101,7 +101,13 @@ def detect_china_region() -> bool:
 
 
 def clone_repo(name: str, url: str, token: Optional[str], force: bool) -> bool:
-    """克隆单个仓库"""
+    """克隆单个仓库（安全版本，避免 Token 在 URL 中暴露）"""
+    # 验证仓库名称安全性
+    import re
+    if not re.match(r'^[a-zA-Z0-9_-]+$', name):
+        Logger.error(f"仓库名称包含非法字符，跳过: {name}")
+        return False
+    
     target_dir = Path('resources') / name
     
     if target_dir.exists():
@@ -113,16 +119,22 @@ def clone_repo(name: str, url: str, token: Optional[str], force: bool) -> bool:
             Logger.success(f"{name} 已存在，跳过 (使用 --force 强制重新克隆)")
             return True
     
-    # 构建带 token 的 URL
-    clone_url = url
-    if token:
-        clone_url = url.replace('https://', f'https://{token}@')
-    
     Logger.step(f"克隆 {name}...")
     
-    success, output = run_command(
-        ['git', 'clone', '--depth', '1', clone_url, str(target_dir)]
-    )
+    # 安全克隆 - 使用 Git credential helper 避免 Token 在 URL 中暴露
+    if token:
+        # 使用 Git credential helper 安全传递 Token
+        cmd = [
+            'git', '-c',
+            f'credential.helper=!f() {{ echo username=x-access-token; echo password={token}; }}; f',
+            'clone', '--depth', '1', url, str(target_dir)
+        ]
+        success, output = run_command(cmd)
+    else:
+        # 无 Token，直接克隆
+        success, output = run_command(
+            ['git', 'clone', '--depth', '1', url, str(target_dir)]
+        )
     
     if success:
         Logger.success(f"{name} 克隆成功")

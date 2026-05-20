@@ -7,7 +7,38 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+*.pyc
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment and Secrets
+.env
+.env.*
+*.env
+!.env.example
+credentials.json
+secrets.json
+*.pem
+*.key
+*.crt
+*.cer
+
+# Dependencies and Resources
+resources/
+resources_index.json
+*.lock
+package-lock.json
+yarn.lock
+node_modules/
+*.egg-info/
+dist/
+build/
 
 # Temp
 *.tmp
 *.log
+*.bak
+*.swp
+*.swo
+*~

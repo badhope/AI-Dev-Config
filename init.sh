@@ -125,8 +125,14 @@ main() {
     SKIP_COUNT=0
     
     for name in "${!REPOS[@]}"; do
+        # 验证仓库名称安全性
+        if [[ ! "$name" =~ ^[a-zA-Z0-9_-]+$ ]]; then
+            print_error "仓库名称包含非法字符，跳过: $name"
+            ((FAIL_COUNT++))
+            continue
+        fi
+        
         repo_url="${REPOS[$name]}"
-        repo_url_with_token="${repo_url/https:\/\/github.com\//https://${GITHUB_TOKEN}@github.com/}"
         
         if [ -d "$name" ]; then
             if [ "$FORCE_MODE" = true ]; then
@@ -141,7 +147,22 @@ main() {
         
         print_step "克隆 $name..."
         
-        if git clone --depth 1 "$repo_url_with_token" "$name" 2>/dev/null; then
+        # 安全克隆 - 避免在 URL 中暴露 Token
+        clone_success=0
+        
+        if [ -n "$GITHUB_TOKEN" ]; then
+            # 使用安全的方式传递 Token - Git credential helper
+            if git -c credential.helper="!f() { echo username=x-access-token; echo password=$GITHUB_TOKEN; }; f" clone --depth 1 "$repo_url" "$name" 2>&1; then
+                clone_success=1
+            fi
+        else
+            # 无 Token，直接克隆
+            if git clone --depth 1 "$repo_url" "$name" 2>&1; then
+                clone_success=1
+            fi
+        fi
+        
+        if [ "$clone_success" -eq 1 ]; then
             print_success "$name 克隆成功"
             ((SUCCESS_COUNT++))
         else

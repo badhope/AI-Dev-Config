@@ -4,6 +4,22 @@
 
 ---
 
+## [1.1.0] - 2026-05-20
+
+### Security Fixes (CRITICAL)
+
+#### Token Authentication Security
+- **init.sh**: Fixed security vulnerability where GitHub Token was exposed in URLs
+- **init.py**: Fixed security vulnerability where GitHub Token was exposed in URLs
+- **Security Improvement**: Now uses Git credential helper for secure token passing (no more `https://token@github.com/` URLs)
+- **Input Validation**: Added safe validation for repository names to prevent path traversal attacks
+
+#### Configuration Security
+- **.gitignore**: Enhanced to protect sensitive files (.env, credentials, keys, certs, resources)
+- **File Permissions**: Fixed `init.sh` file permissions (now executable `chmod +x`)
+
+---
+
 ## [1.0.1] - 2026-05-20
 
 ### Updated
