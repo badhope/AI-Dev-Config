@@ -138,7 +138,7 @@ def generate_index() -> bool:
     
     index_data = {
         "generated": datetime.utcnow().isoformat() + 'Z',
-        "version": "1.0.0",
+        "version": "1.3.0",
         "resources": {}
     }
     

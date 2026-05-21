@@ -4,6 +4,15 @@
 
 ---
 
+## [1.4.0] - 2026-05-21
+
+### Maintenance & Consistency
+- **init.py**: Updated resources_index.json version from "1.0.0" to "1.3.0" for consistency
+- **Documentation**: All README, QUICK_REFERENCE, and related links verified and correct
+- **Commands**: All example commands verified and working
+
+---
+
 ## [1.3.0] - 2026-05-21
 
 ### Feature Parity & Enhancements
