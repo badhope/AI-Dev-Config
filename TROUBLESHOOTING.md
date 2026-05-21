@@ -29,9 +29,13 @@
    git clone git@github.com:badhope/AI-SKILL.git
    ```
 
-3. **Use GitHub token**
+3. **Use GitHub token (securely)**
    ```bash
-   git clone https://TOKEN@github.com/badhope/AI-SKILL.git
+   # Option 1: Use Git credential helper (RECOMMENDED)
+   git -c credential.helper="!f() { echo username=x-access-token; echo password=YOUR_TOKEN_HERE; }; f" clone https://github.com/badhope/AI-SKILL.git
+   
+   # Option 2: Use SSH (MOST SECURE)
+   git clone git@github.com:badhope/AI-SKILL.git
    ```
 
 4. **Manual download**

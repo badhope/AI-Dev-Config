@@ -4,6 +4,14 @@
 
 ---
 
+## [1.1.1] - 2026-05-20
+
+### Security Fixes (CRITICAL HOTFIX)
+- **init.sh**: Removed leftover `GIT_PREFIX` variable that contained token-in-URL
+- **TROUBLESHOOTING.md**: Fixed documentation example to show secure token usage instead of `token@github.com`
+
+---
+
 ## [1.1.0] - 2026-05-20
 
 ### Security Fixes (CRITICAL)

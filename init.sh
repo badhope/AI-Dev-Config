@@ -84,9 +84,6 @@ main() {
     # 检测 GitHub Token 是否可用
     if [ -n "$GITHUB_TOKEN" ]; then
         print_info "使用 GitHub Token 进行认证"
-        GIT_PREFIX="https://${GITHUB_TOKEN}@github.com/"
-    else
-        GIT_PREFIX="https://github.com/"
     fi
     
     # 检测是否在中国大陆（使用中国镜像）
