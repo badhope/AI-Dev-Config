@@ -4,6 +4,17 @@
 
 ---
 
+## [1.3.0] - 2026-05-21
+
+### Feature Parity & Enhancements
+- **init.sh**: Added missing `--check` / `-c` option for status check
+- **init.sh**: Added missing `--quiet` / `-q` option for silent mode
+- **init.sh**: Enhanced `print_header()` to accept custom titles
+- **init.sh**: All output respects quiet mode
+- **init.sh**: Now has full feature parity with init.py
+
+---
+
 ## [1.2.0] - 2026-05-21
 
 ### Code Quality Improvements

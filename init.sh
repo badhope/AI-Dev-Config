@@ -16,8 +16,9 @@ NC='\033[0m' # No Color
 
 # 打印函数
 print_header() {
+    local title="${1:-AI-Dev-Config 资源库初始化}"
     echo -e "${BLUE}========================================${NC}"
-    echo -e "${BLUE}  AI-Dev-Config 资源库初始化${NC}"
+    echo -e "${BLUE}  $title${NC}"
     echo -e "${BLUE}========================================${NC}"
     echo ""
 }
@@ -50,6 +51,9 @@ REPOS=(
 
 # GitHub Token (可选，用于私有仓库或提高速率限制)
 GITHUB_TOKEN=""
+FORCE_MODE=false
+CHECK_MODE=false
+QUIET_MODE=false
 
 # 解析命令行参数
 while [[ $# -gt 0 ]]; do
@@ -62,11 +66,21 @@ while [[ $# -gt 0 ]]; do
             FORCE_MODE=true
             shift
             ;;
+        --check|-c)
+            CHECK_MODE=true
+            shift
+            ;;
+        --quiet|-q)
+            QUIET_MODE=true
+            shift
+            ;;
         --help|-h)
             echo "用法: $0 [选项]"
             echo "选项:"
             echo "  --token, -t <token>  GitHub Token (可选)"
             echo "  --force, -f          强制重新克隆已存在的仓库"
+            echo "  --check, -c          仅检查资源状态"
+            echo "  --quiet, -q          静默模式"
             echo "  --help, -h          显示此帮助信息"
             exit 0
             ;;
@@ -79,21 +93,47 @@ done
 
 # 主函数
 main() {
-    print_header
+    # 检查模式
+    if [ "$CHECK_MODE" = true ]; then
+        if [ "$QUIET_MODE" != true ]; then
+            print_header
+        fi
+        print_header "检查资源状态"
+        for name in "${!REPOS[@]}"; do
+            target_dir="resources/$name"
+            if [ -d "$target_dir" ]; then
+                print_success "$name: 已克隆"
+            else
+                print_error "$name: 未克隆"
+            fi
+        done
+        exit 0
+    fi
+    
+    # 普通模式
+    if [ "$QUIET_MODE" != true ]; then
+        print_header
+    fi
     
     # 检测 GitHub Token 是否可用
-    if [ -n "$GITHUB_TOKEN" ]; then
+    if [ -n "$GITHUB_TOKEN" ] && [ "$QUIET_MODE" != true ]; then
         print_info "使用 GitHub Token 进行认证"
     fi
     
     # 创建资源目录
-    print_step "创建资源目录..."
+    if [ "$QUIET_MODE" != true ]; then
+        print_step "创建资源目录..."
+    fi
     mkdir -p resources
-    print_success "资源目录创建完成"
+    if [ "$QUIET_MODE" != true ]; then
+        print_success "资源目录创建完成"
+    fi
     
     # 克隆仓库
-    print_step "开始克隆资源仓库..."
-    echo ""
+    if [ "$QUIET_MODE" != true ]; then
+        print_step "开始克隆资源仓库..."
+        echo ""
+    fi
     
     SUCCESS_COUNT=0
     FAIL_COUNT=0
@@ -102,7 +142,9 @@ main() {
     for name in "${!REPOS[@]}"; do
         # 验证仓库名称安全性
         if [[ ! "$name" =~ ^[a-zA-Z0-9_-]+$ ]]; then
-            print_error "仓库名称包含非法字符，跳过: $name"
+            if [ "$QUIET_MODE" != true ]; then
+                print_error "仓库名称包含非法字符，跳过: $name"
+            fi
             ((FAIL_COUNT++))
             continue
         fi
@@ -112,55 +154,75 @@ main() {
         
         if [ -d "$target_dir" ]; then
             if [ "$FORCE_MODE" = true ]; then
-                print_step "强制重新克隆 $name..."
+                if [ "$QUIET_MODE" != true ]; then
+                    print_step "强制重新克隆 $name..."
+                fi
                 rm -rf "$target_dir"
             else
-                print_success "$name 已存在，跳过 (使用 --force 强制重新克隆)"
+                if [ "$QUIET_MODE" != true ]; then
+                    print_success "$name 已存在，跳过 (使用 --force 强制重新克隆)"
+                fi
                 ((SKIP_COUNT++))
                 continue
             fi
         fi
         
-        print_step "克隆 $name..."
+        if [ "$QUIET_MODE" != true ]; then
+            print_step "克隆 $name..."
+        fi
         
         # 安全克隆 - 避免在 URL 中暴露 Token
         clone_success=0
         
         if [ -n "$GITHUB_TOKEN" ]; then
             # 使用安全的方式传递 Token - Git credential helper
-            if git -c credential.helper="!f() { echo username=x-access-token; echo password=$GITHUB_TOKEN; }; f" clone --depth 1 "$repo_url" "$target_dir" 2>&1; then
+            if git -c credential.helper="!f() { echo username=x-access-token; echo password=$GITHUB_TOKEN; }; f" clone --depth 1 "$repo_url" "$target_dir" >/dev/null 2>&1; then
                 clone_success=1
             fi
         else
             # 无 Token，直接克隆
-            if git clone --depth 1 "$repo_url" "$target_dir" 2>&1; then
+            if git clone --depth 1 "$repo_url" "$target_dir" >/dev/null 2>&1; then
                 clone_success=1
             fi
         fi
         
         if [ "$clone_success" -eq 1 ]; then
-            print_success "$name 克隆成功"
+            if [ "$QUIET_MODE" != true ]; then
+                print_success "$name 克隆成功"
+            fi
             ((SUCCESS_COUNT++))
         else
-            print_error "$name 克隆失败"
+            if [ "$QUIET_MODE" != true ]; then
+                print_error "$name 克隆失败"
+            fi
             
             # 尝试使用 SSH 方式
-            print_info "尝试 SSH 方式..."
+            if [ "$QUIET_MODE" != true ]; then
+                print_info "尝试 SSH 方式..."
+            fi
             ssh_url="${repo_url/https:\/\/github.com\//git@github.com:}"
-            if git clone --depth 1 "$ssh_url" "$target_dir" 2>/dev/null; then
-                print_success "$name SSH 克隆成功"
+            if git clone --depth 1 "$ssh_url" "$target_dir" >/dev/null 2>&1; then
+                if [ "$QUIET_MODE" != true ]; then
+                    print_success "$name SSH 克隆成功"
+                fi
                 ((SUCCESS_COUNT++))
             else
-                print_error "$name 克隆失败，请手动检查"
+                if [ "$QUIET_MODE" != true ]; then
+                    print_error "$name 克隆失败，请手动检查"
+                fi
                 ((FAIL_COUNT++))
             fi
         fi
-        echo ""
+        if [ "$QUIET_MODE" != true ]; then
+            echo ""
+        fi
     done
     
     # 验证克隆结果
-    print_step "验证资源..."
-    echo ""
+    if [ "$QUIET_MODE" != true ] && [ $SUCCESS_COUNT -gt 0 ]; then
+        print_step "验证资源..."
+        echo ""
+    fi
     
     VALIDATION_PASSED=true
     for name in "${!REPOS[@]}"; do
@@ -168,22 +230,33 @@ main() {
         if [ -d "$target_dir" ]; then
             # 检查是否为空仓库
             if [ -z "$(ls -A "$target_dir" 2>/dev/null)" ]; then
-                print_error "$name 是空仓库"
+                if [ "$QUIET_MODE" != true ]; then
+                    print_error "$name 是空仓库"
+                fi
                 VALIDATION_PASSED=false
             else
-                print_success "$name 验证通过"
+                if [ "$QUIET_MODE" != true ]; then
+                    print_success "$name 验证通过"
+                fi
             fi
         else
-            print_error "$name 未找到"
-            VALIDATION_PASSED=false
+            if [ -d "$target_dir" ]; then
+                if [ "$QUIET_MODE" != true ]; then
+                    print_error "$name 未找到"
+                fi
+                VALIDATION_PASSED=false
+            fi
         fi
     done
     
     # 生成资源索引
-    print_step "生成资源索引..."
-    
-    INDEX_FILE="resources_index.json"
-    cat > "$INDEX_FILE" << 'EOF'
+    if [ $SUCCESS_COUNT -gt 0 ] && [ "$VALIDATION_PASSED" = true ]; then
+        if [ "$QUIET_MODE" != true ]; then
+            print_step "生成资源索引..."
+        fi
+        
+        INDEX_FILE="resources_index.json"
+        cat > "$INDEX_FILE" << 'EOF'
 {
   "generated": "TIMESTAMP_PLACEHOLDER",
   "resources": {
@@ -215,38 +288,40 @@ main() {
   }
 }
 EOF
-    
-    # 替换时间戳
-    sed -i "s/TIMESTAMP_PLACEHOLDER/$(date -u +%Y-%m-%dT%H:%M:%SZ)/" "$INDEX_FILE"
-    
-    print_success "资源索引已生成: $INDEX_FILE"
-    
-    # 总结
-    echo ""
-    echo -e "${BLUE}========================================${NC}"
-    echo -e "${BLUE}  初始化完成！${NC}"
-    echo -e "${BLUE}========================================${NC}"
-    echo ""
-    echo -e "📊 统计:"
-    echo -e "   ✅ 成功: $SUCCESS_COUNT"
-    echo -e "   ⏭️  跳过: $SKIP_COUNT"
-    echo -e "   ❌ 失败: $FAIL_COUNT"
-    echo ""
-    
-    if [ $FAIL_COUNT -eq 0 ]; then
-        print_success "所有资源已准备就绪！"
-        echo ""
-        echo "下一步:"
-        echo "  1. 启动 AI 智能体"
-        echo "  2. 让智能体读取 AI-Dev-Config 仓库"
-        echo "  3. 智能体将自动加载配置并引导您"
-    else
-        print_error "有 $FAIL_COUNT 个资源克隆失败"
-        echo ""
-        echo "请手动处理失败的资源，然后重新运行此脚本。"
+        
+        # 替换时间戳
+        sed -i "s/TIMESTAMP_PLACEHOLDER/$(date -u +%Y-%m-%dT%H:%M:%SZ)/" "$INDEX_FILE"
+        
+        if [ "$QUIET_MODE" != true ]; then
+            print_success "资源索引已生成: $INDEX_FILE"
+        fi
     fi
     
-    echo ""
+    # 总结
+    if [ "$QUIET_MODE" != true ]; then
+        echo ""
+        print_header "初始化完成！"
+        echo -e "📊 统计:"
+        echo -e "   ✅ 成功: $SUCCESS_COUNT"
+        echo -e "   ⏭️  跳过: $SKIP_COUNT"
+        echo -e "   ❌ 失败: $FAIL_COUNT"
+        echo ""
+        
+        if [ $FAIL_COUNT -eq 0 ]; then
+            print_success "所有资源已准备就绪！"
+            echo ""
+            echo "下一步:"
+            echo "  1. 启动 AI 智能体"
+            echo "  2. 让智能体读取 AI-Dev-Config 仓库"
+            echo "  3. 智能体将自动加载配置并引导您"
+        else
+            print_error "有 $FAIL_COUNT 个资源克隆失败"
+            echo ""
+            echo "请手动处理失败的资源，然后重新运行此脚本。"
+        fi
+        
+        echo ""
+    fi
 }
 
 # 运行主函数
