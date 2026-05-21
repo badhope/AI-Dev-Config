@@ -8,6 +8,7 @@ Python 版本: 3.6+
 """
 
 import os
+import re
 import sys
 import json
 import subprocess
@@ -75,35 +76,9 @@ def run_command(cmd: List[str], cwd: Optional[str] = None, timeout: int = 300) -
         return False, str(e)
 
 
-def detect_china_region() -> bool:
-    """检测是否在中国大陆"""
-    # 方法1: 检查环境变量
-    if os.environ.get('CHINA_MIRROR', '').lower() in ('true', '1', 'yes'):
-        return True
-    
-    # 方法2: 检查 pip 镜像配置
-    pip_config = os.path.expanduser('~/.pip/pip.conf')
-    if os.path.exists(pip_config):
-        with open(pip_config) as f:
-            content = f.read()
-            if 'tsinghua' in content or 'aliyun' in content or 'npmmirror' in content:
-                return True
-    
-    # 方法3: 检查 npm 镜像配置
-    npm_config = os.path.expanduser('~/.npmrc')
-    if os.path.exists(npm_config):
-        with open(npm_config) as f:
-            content = f.read()
-            if 'npmmirror' in content:
-                return True
-    
-    return False
-
-
 def clone_repo(name: str, url: str, token: Optional[str], force: bool) -> bool:
     """克隆单个仓库（安全版本，避免 Token 在 URL 中暴露）"""
     # 验证仓库名称安全性
-    import re
     if not re.match(r'^[a-zA-Z0-9_-]+$', name):
         Logger.error(f"仓库名称包含非法字符，跳过: {name}")
         return False
@@ -231,10 +206,6 @@ def main():
     
     # 初始化
     Logger.header("AI-Dev-Config 资源库初始化")
-    
-    # 检测中国镜像
-    if detect_china_region():
-        Logger.info("检测到可能在中国大陆，已启用镜像加速...")
     
     # 创建资源目录
     Logger.step("创建资源目录...")

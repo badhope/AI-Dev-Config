@@ -86,31 +86,9 @@ main() {
         print_info "使用 GitHub Token 进行认证"
     fi
     
-    # 检测是否在中国大陆（使用中国镜像）
-    detect_china_mirror() {
-        # 检测方法1: 检查网络延迟
-        if ping -c 1 -W 2 github.com > /dev/null 2>&1; then
-            return 1  # 可以访问 GitHub
-        fi
-        
-        # 检测方法2: 检查 DNS 解析
-        if nslookup github.com > /dev/null 2>&1; then
-            return 1  # 可以访问
-        fi
-        
-        return 0  # 可能在中国大陆，使用镜像
-    }
-    
-    CHINA_MIRROR=false
-    if detect_china_mirror; then
-        print_info "检测到可能在中国大陆，启用镜像加速..."
-        CHINA_MIRROR=true
-    fi
-    
     # 创建资源目录
     print_step "创建资源目录..."
     mkdir -p resources
-    cd resources
     print_success "资源目录创建完成"
     
     # 克隆仓库
@@ -130,11 +108,12 @@ main() {
         fi
         
         repo_url="${REPOS[$name]}"
+        target_dir="resources/$name"
         
-        if [ -d "$name" ]; then
+        if [ -d "$target_dir" ]; then
             if [ "$FORCE_MODE" = true ]; then
                 print_step "强制重新克隆 $name..."
-                rm -rf "$name"
+                rm -rf "$target_dir"
             else
                 print_success "$name 已存在，跳过 (使用 --force 强制重新克隆)"
                 ((SKIP_COUNT++))
@@ -149,12 +128,12 @@ main() {
         
         if [ -n "$GITHUB_TOKEN" ]; then
             # 使用安全的方式传递 Token - Git credential helper
-            if git -c credential.helper="!f() { echo username=x-access-token; echo password=$GITHUB_TOKEN; }; f" clone --depth 1 "$repo_url" "$name" 2>&1; then
+            if git -c credential.helper="!f() { echo username=x-access-token; echo password=$GITHUB_TOKEN; }; f" clone --depth 1 "$repo_url" "$target_dir" 2>&1; then
                 clone_success=1
             fi
         else
             # 无 Token，直接克隆
-            if git clone --depth 1 "$repo_url" "$name" 2>&1; then
+            if git clone --depth 1 "$repo_url" "$target_dir" 2>&1; then
                 clone_success=1
             fi
         fi
@@ -168,7 +147,7 @@ main() {
             # 尝试使用 SSH 方式
             print_info "尝试 SSH 方式..."
             ssh_url="${repo_url/https:\/\/github.com\//git@github.com:}"
-            if git clone --depth 1 "$ssh_url" "$name" 2>/dev/null; then
+            if git clone --depth 1 "$ssh_url" "$target_dir" 2>/dev/null; then
                 print_success "$name SSH 克隆成功"
                 ((SUCCESS_COUNT++))
             else
@@ -185,9 +164,10 @@ main() {
     
     VALIDATION_PASSED=true
     for name in "${!REPOS[@]}"; do
-        if [ -d "$name" ]; then
+        target_dir="resources/$name"
+        if [ -d "$target_dir" ]; then
             # 检查是否为空仓库
-            if [ -z "$(ls -A "$name" 2>/dev/null)" ]; then
+            if [ -z "$(ls -A "$target_dir" 2>/dev/null)" ]; then
                 print_error "$name 是空仓库"
                 VALIDATION_PASSED=false
             else
@@ -240,9 +220,6 @@ EOF
     sed -i "s/TIMESTAMP_PLACEHOLDER/$(date -u +%Y-%m-%dT%H:%M:%SZ)/" "$INDEX_FILE"
     
     print_success "资源索引已生成: $INDEX_FILE"
-    
-    # 返回上级目录
-    cd ..
     
     # 总结
     echo ""

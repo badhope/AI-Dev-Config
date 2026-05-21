@@ -4,7 +4,19 @@
 
 ---
 
-## [1.1.1] - 2026-05-20
+## [1.2.0] - 2026-05-21
+
+### Code Quality Improvements
+- **init.py**: Fixed import order, moved `import re` to top of file
+- **init.py**: Removed unused `detect_china_region()` function (no actual mirror logic implemented)
+- **init.sh**: Removed unused China mirror detection logic
+- **init.sh**: Fixed path handling issue (removed unnecessary `cd resources`)
+- **init.sh**: Fixed resources_index.json generation to be in root directory
+- **init.sh**: Now properly handles `resources/` prefix for all directory operations
+
+---
+
+## [1.1.1] - 2026-05-21
 
 ### Security Fixes (CRITICAL HOTFIX)
 - **init.sh**: Removed leftover `GIT_PREFIX` variable that contained token-in-URL
